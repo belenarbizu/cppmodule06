@@ -20,6 +20,10 @@ private:
     bool checkChar(std::string arg);
     bool checkDouble(std::string arg);
     bool checkFloat(std::string arg);
+    void cvtFromInt(void);
+    void cvtFromChar(void);
+    void cvtFromDouble(void);
+    void cvtFromFloat(void);
 public:
     ScalarConverter(std::string arg);
     virtual ~ScalarConverter();

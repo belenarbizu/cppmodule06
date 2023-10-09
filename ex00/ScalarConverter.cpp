@@ -63,22 +63,28 @@ bool ScalarConverter::checkChar(std::string arg)
 }
 void ScalarConverter::cvtFromInt(void)
 {
-    this->_argInt = std::atoi(this->_arg.c_str());
-    if (this->_argInt < 32 || this->_argInt > 126)
+    this->_argDouble = std::strtod(this->_arg.c_str(), NULL);
+    this->_argInt = static_cast<int>(this->_argDouble);
+    if (this->_argInt < 0 || this->_argInt > 255)
+        std::cout << "char: overflow" << std::endl;
+    else if (this->_argInt < 32 || this->_argInt > 126)
         std::cout << "char: Non displayable" << std::endl;
     else
         std::cout << "char: " << static_cast<char>(this->_argInt) << std::endl;
-    std::cout << "int: " << this->_argInt << std::endl;
-    this->_argFloat = static_cast<float>(this->_argInt);
+    if (this->_argDouble > INT_MAX || this->_argDouble < INT_MIN)
+        std::cout << "int: overflow" << std::endl;
+    else
+        std::cout << "int: " << this->_argInt << std::endl;
+    this->_argFloat = static_cast<float>(this->_argDouble);
     if (this->_argInt == this->_argFloat)
     {
-        std::cout << "float: " << static_cast<float>(this->_argInt) << ".0f" << std::endl;
-        std::cout << "double: " << static_cast<double>(this->_argInt) << ".0" << std::endl;
+        std::cout << "float: " << static_cast<float>(this->_argDouble) << ".0f" << std::endl;
+        std::cout << "double: " << static_cast<double>(this->_argDouble) << ".0" << std::endl;
     }
     else
     {
-        std::cout << "float: " << static_cast<float>(this->_argInt) << "f" << std::endl;
-        std::cout << "double: " << static_cast<double>(this->_argInt) << std::endl;
+        std::cout << "float: " << static_cast<float>(this->_argDouble) << "f" << std::endl;
+        std::cout << "double: " << static_cast<double>(this->_argDouble) << std::endl;
     }
 }
 void ScalarConverter::cvtFromChar(void)
@@ -103,11 +109,16 @@ void ScalarConverter::cvtFromDouble(void)
 {
     this->_argDouble = std::strtod(this->_arg.c_str(), NULL);
     this->_argInt = static_cast<int>(this->_argDouble);
-    if (this->_argInt < 32 || this->_argInt > 126)
+    if (this->_argInt < 0 || this->_argInt > 255)
+        std::cout << "char: overflow" << std::endl;
+    else if (this->_argInt < 32 || this->_argInt > 126)
         std::cout << "char: Non displayable" << std::endl;
     else
         std::cout << "char: " << static_cast<char>(this->_argInt) << std::endl;
-    std::cout << "int: " << this->_argInt << std::endl;
+    if (this->_argDouble > INT_MAX || this->_argDouble < INT_MIN)
+        std::cout << "int: overflow" << std::endl;
+    else
+        std::cout << "int: " << this->_argInt << std::endl;
     if (this->_argInt == this->_argDouble)
     {
         std::cout << "float: " << static_cast<float>(this->_argDouble) << ".0f" << std::endl;
@@ -121,34 +132,34 @@ void ScalarConverter::cvtFromDouble(void)
 }
 void ScalarConverter::cvtFromFloat(void)
 {
-    this->_argFloat = std::strtof(this->_arg.c_str(), NULL);
-    this->_argInt = static_cast<int>(this->_argFloat);
-    if (this->_argInt < 32 || this->_argInt > 126)
+    this->_argDouble = std::strtod(this->_arg.c_str(), NULL);
+    this->_argInt = static_cast<int>(this->_argDouble);
+    if (this->_argInt < 0 || this->_argInt > 255)
+        std::cout << "char: overflow" << std::endl;
+    else if (this->_argInt < 32 || this->_argInt > 126)
         std::cout << "char: Non displayable" << std::endl;
     else
         std::cout << "char: " << static_cast<char>(this->_argInt) << std::endl;
-    std::cout << "int: " << this->_argInt << std::endl;
-    if (this->_argInt == this->_argFloat)
+    if (this->_argDouble > INT_MAX || this->_argDouble < INT_MIN)
+        std::cout << "int: overflow" << std::endl;
+    else
+        std::cout << "int: " << this->_argInt << std::endl;
+    if (this->_argInt == this->_argDouble)
     {
-        std::cout << "float: " << this->_argFloat << ".0f" << std::endl;
-        std::cout << "double: " << static_cast<double>(this->_argFloat) << ".0" << std::endl;
+        std::cout << "float: " << static_cast<float>(this->_argDouble) << ".0f" << std::endl;
+        std::cout << "double: " << this->_argDouble << ".0" << std::endl;
     }
     else
     {
-        std::cout << "float: " << this->_argFloat << "f" << std::endl;
-        std::cout << "double: " << static_cast<double>(this->_argFloat) << std::endl;
+        std::cout << "float: " << static_cast<float>(this->_argDouble) << "f" << std::endl;
+        std::cout << "double: " << this->_argDouble << std::endl;
     }
 }
 
 std::string ScalarConverter::itsType(std::string arg)
 {
-    std::string pLiterals[] = {"nan", "nanf", "-inff", "+inff", "-inf", "+inf"};
-
-    for (int i = 0; i <= 5; i++)
-    {
-        if (arg == pLiterals[i])
-            return pLiterals[i];
-    }
+    if (arg == "nan" || arg == "nanf")
+        return ("literal");
     std::string dataType[] = {"int", "double", "float", "char"};
     bool (ScalarConverter::*varType[4])(std::string arg) = {&ScalarConverter::checkInt, &ScalarConverter::checkDouble, &ScalarConverter::checkFloat, &ScalarConverter::checkChar};
 
@@ -165,6 +176,14 @@ ScalarConverter::ScalarConverter(std::string arg)
     std::string type;
     this->_arg = arg;
     type = itsType(arg);
+    if (type == "literal")
+    {
+        this->_argDouble = std::strtod(this->_arg.c_str(), NULL);
+        std::cout << "char: impossible" << std::endl;
+        std::cout << "int: impossible" << std::endl;
+        std::cout << "float: " << static_cast<float>(this->_argDouble) << "f" << std::endl;
+        std::cout << "double: " << this->_argDouble << std::endl;
+    }
     std::string dataType[] = {"int", "double", "float", "char"};
     void (ScalarConverter::*cvtVar[4])(void) = {&ScalarConverter::cvtFromInt, &ScalarConverter::cvtFromDouble, &ScalarConverter::cvtFromFloat, &ScalarConverter::cvtFromChar};
 

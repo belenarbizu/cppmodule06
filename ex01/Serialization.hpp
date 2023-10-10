@@ -2,6 +2,12 @@
 #define SERIALIZATION_HPP
 
 #include <stdint.h>
+#include <iostream>
+
+struct Data {
+    int varNum;
+    std::string varStr;
+};
 
 class Serializer
 {

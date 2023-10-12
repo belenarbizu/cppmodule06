@@ -2,6 +2,7 @@
 
 int main(void)
 {
+    std::srand(std::time(0));
     Base *Zacarias = new Base();
     Base *Alejandro = NULL;
     Base *Benito = NULL;

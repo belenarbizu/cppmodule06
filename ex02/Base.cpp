@@ -16,9 +16,6 @@ Base::~Base()
 Base* Base::generate(void)
 {
     int num = 1 + std::rand() % (4 - 1);
-    int prueba = std::rand();
-    std::cout << "prueba: " << prueba << std::endl;
-    std::cout << num << std::endl;
     if (num == 1)
     {
         return (new A());

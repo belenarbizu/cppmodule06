@@ -8,26 +8,22 @@
 class ScalarConverter
 {
 private:
-    std::string _arg;
-    int _argInt;
-    char _argChar;
-    double _argDouble;
-    float _argFloat;
     ScalarConverter();
     ScalarConverter& operator=(const ScalarConverter & scv);
-    std::string itsType(std::string arg);
-    bool checkInt(std::string arg);
-    bool checkChar(std::string arg);
-    bool checkDouble(std::string arg);
-    bool checkFloat(std::string arg);
-    void cvtFromInt(void);
-    void cvtFromChar(void);
-    void cvtFromDouble(void);
-    void cvtFromFloat(void);
-public:
-    ScalarConverter(std::string arg);
     virtual ~ScalarConverter();
     ScalarConverter(const ScalarConverter & scv);
+
+    static std::string itsType(std::string arg);
+    static bool checkInt(std::string arg);
+    static bool checkChar(std::string arg);
+    static bool checkDouble(std::string arg);
+    static bool checkFloat(std::string arg);
+    static void cvtFromInt(std::string arg);
+    static void cvtFromChar(std::string arg);
+    static void cvtFromDouble(std::string arg);
+    static void cvtFromFloat(std::string arg);
+public:
+    static void converter(std::string arg);
 };
 
 #endif

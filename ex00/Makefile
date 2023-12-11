@@ -2,7 +2,7 @@ SRCS = main.cpp ScalarConverter.cpp
 
 OBJS = ${SRCS:.cpp=.o}
 
-NAME = scalarconv
+NAME = convert
 
 CC = c++
 CPPFLAGS = -Wall -Wextra -Werror -std=c++98

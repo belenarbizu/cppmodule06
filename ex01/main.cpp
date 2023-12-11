@@ -13,11 +13,10 @@ int main(void)
     std::cout << "Num: " << Test.varNum << std::endl;
     std::cout << "Str: " << Test.varStr << std::endl;
 
-    Serializer slz;
-    retPtr = slz.serialize(&Test);
-    retTest = slz.deserialize(retPtr);
+    retPtr = Serializer::serialize(&Test);
+    retTest = Serializer::deserialize(retPtr);
 
     std::cout << "After serialization:" << std::endl;
-    std::cout << "Num: " << Test.varNum << std::endl;
-    std::cout << "Str: " << Test.varStr << std::endl;
+    std::cout << "Num: " << retTest->varNum << std::endl;
+    std::cout << "Str: " << retTest->varStr << std::endl;
 }
